@@ -22,3 +22,44 @@ Install using:
 --------------------------------------------------------------------------------
 Compiling and installing the plugin:
 Run make and sudo make install
+
+typedef struct _NvDsBatchMeta {
+  NvDsBaseMeta base_meta;
+  /** Holds the maximum number of frames in the batch. */
+  guint max_frames_in_batch;
+  /** Holds the number of frames now in the batch. */
+  guint num_frames_in_batch;
+  /** Holds a pointer to a pool of pointers of type @ref NvDsFrameMeta,
+   representing a pool of frame metas. */
+  NvDsMetaPool *frame_meta_pool;
+  /** Holds a pointer to a pool of pointers of type NvDsObjMeta,
+   representing a pool of object metas. */
+  NvDsMetaPool *obj_meta_pool;
+  /** Holds a pointer to a pool of pointers of type @ref NvDsClassifierMeta,
+   representing a pool of classifier metas. */
+  NvDsMetaPool *classifier_meta_pool;
+  /** Holds a pointer to a pool of pointers of type @ref NvDsDisplayMeta,
+   representing a pool of display metas. */
+  NvDsMetaPool *display_meta_pool;
+  /** Holds a pointer to a pool of pointers of type @ref NvDsUserMeta,
+   representing a pool of user metas. */
+  NvDsMetaPool *user_meta_pool;
+  /** Holds a pointer to a pool of pointers of type @ref NvDsLabelInfo,
+   representing a pool of label metas. */
+  NvDsMetaPool *label_info_meta_pool;
+  /** Holds a pointer to a list of pointers of type NvDsFrameMeta
+   or NvDsAudioFrameMeta (when the batch represent audio batch),
+   representing frame metas used in the current batch.
+   */
+  NvDsFrameMetaList *frame_meta_list;
+  /** Holds a pointer to a list of pointers of type NvDsUserMeta,
+   representing user metas in the current batch. */
+  NvDsUserMetaList *batch_user_meta_list;
+  /** Holds a lock to be set before accessing metadata to avoid
+   simultaneous update by multiple components. */
+  GRecMutex meta_mutex;
+  /** Holds an array of user-specific batch information. */
+  gint64 misc_batch_info[MAX_USER_FIELDS];
+  /** For internal use. */
+  gint64 reserved[MAX_RESERVED_FIELDS];
+} NvDsBatchMeta;
